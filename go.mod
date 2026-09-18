@@ -8,7 +8,7 @@ require (
 	github.com/bborbe/http v1.26.26
 	github.com/bborbe/kafka v1.26.0
 	github.com/bborbe/kv v1.21.16
-	github.com/bborbe/notification v0.6.1
+	github.com/bborbe/notification v0.7.0
 	github.com/bborbe/run v1.11.0
 	github.com/bborbe/sentry v1.10.2
 	github.com/bborbe/service v1.10.14

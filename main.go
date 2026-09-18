@@ -20,6 +20,7 @@ import (
 	"github.com/bborbe/notification/db"
 	libfactory "github.com/bborbe/notification/factory"
 	libmetrics "github.com/bborbe/notification/metrics"
+	"github.com/bborbe/notification/telegram"
 	"github.com/bborbe/run"
 	libsentry "github.com/bborbe/sentry"
 	"github.com/bborbe/service"
@@ -45,6 +46,7 @@ type application struct {
 	DataDir        string             `required:"true"  arg:"datadir"          env:"DATADIR"          usage:"data directory"`
 	NoSync         bool               `required:"true"  arg:"no-sync"          env:"NO_SYNC"          usage:"no sync"                                                default:"false"`
 	TelegramToken  string             `required:"true"  arg:"telegram-token"   env:"TELEGRAM_TOKEN"   usage:"Telegram bot token"                    display:"length"`
+	TelegramBot    telegram.Bot       `required:"false" arg:"telegram-bot"     env:"TELEGRAM_BOT"     usage:"bot this instance serves"`
 	Branch         base.Branch        `required:"true"  arg:"branch"           env:"BRANCH"           usage:"branch"`
 	BuildGitCommit string             `required:"false" arg:"build-git-commit" env:"BUILD_GIT_COMMIT" usage:"Build Git commit hash"                                  default:"none"`
 	BuildDate      *libtime.DateTime  `required:"false" arg:"build-date"       env:"BUILD_DATE"       usage:"Build timestamp (RFC3339)"`
@@ -112,6 +114,7 @@ func (a *application) createCommandConsumer(
 		a.BatchSize,
 		messageSender,
 		sentryClient,
+		a.TelegramBot,
 	)
 }
 
