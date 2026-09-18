@@ -8,7 +8,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## Unreleased
+## v0.2.0
 
 - feat: add `TELEGRAM_BOT`, naming the bot this instance serves. The send executor skips any command naming a different bot, returning `cdb.ErrCommandObjectSkipped` so the skip publishes neither a Success the instance never performed nor a Failure for every message belonging to the other bot. Empty (the default) serves commands that carry no bot, so a single-instance deployment is unchanged.
 - feat: bump `github.com/bborbe/notification` to v0.7.0 for the `Bot` field on `SendCommand`.
