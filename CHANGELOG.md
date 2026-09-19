@@ -8,7 +8,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## Unreleased
+## v0.3.0
 - Attach a `text_link` entity for `obsidian://` deeplinks, so a delivered escalation link is tappable instead of plain text — Telegram auto-detects only http/https and does not recognise a custom scheme
 
 ## v0.2.0
