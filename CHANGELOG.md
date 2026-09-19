@@ -8,7 +8,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## Unreleased
+## v0.3.1
 
 - fix: Remove the `text_link` entity that v0.3.0 attached to an `obsidian://` deeplink. The Telegram Bot API accepts only `http`, `https` and `tg://` in an entity URL and answers any other scheme with `400 … entity URL … is invalid: Unsupported URL protocol`, which fails the entire message rather than degrading it — so v0.3.0 did not make the deeplink tappable, it stopped escalations being delivered at all. Messages now carry no `entities` field, and `pkg/message-sender_test.go` guards the wire payload against an entity URL whose scheme the Bot API rejects.
 
