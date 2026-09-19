@@ -110,4 +110,47 @@ var _ = Describe("MessageSender", func() {
 			})
 		})
 	})
+
+	// Telegram accepts only http, https and tg:// in a text_link entity URL and
+	// answers any other scheme with 400 "Unsupported URL protocol", which fails
+	// the whole message rather than degrading it. A payload naming an
+	// obsidian:// URL in an entity is therefore a delivery outage, not a
+	// cosmetic regression — these specs are the guard against re-introducing it.
+	Context("an obsidian:// deeplink in the message body", func() {
+		// Shaped like a real escalation body: the deeplink is the last line and
+		// the line above carries an em dash, so a naive byte offset would be wrong.
+		const message = "escalation: pr-reviewer-agent cleared its assignee — status in_progress, phase human_review\n" +
+			"obsidian://open?vault=openclaw&file=tasks%2FPR%20Review%20github%20-%202"
+
+		JustBeforeEach(func() {
+			err = sender.Send(ctx, "112230768", message)
+		})
+
+		It("delivers the message", func() {
+			Expect(err).To(BeNil())
+		})
+
+		It("attaches no entity whose URL is not http, https or tg", func() {
+			var payload struct {
+				Entities []struct {
+					Type string `json:"type"`
+					URL  string `json:"url"`
+				} `json:"entities"`
+			}
+			Expect(json.Unmarshal(receivedBody, &payload)).To(Succeed())
+			for _, entity := range payload.Entities {
+				Expect(entity.URL).To(Or(
+					HavePrefix("http://"),
+					HavePrefix("https://"),
+					HavePrefix("tg://"),
+				), "entity type(%s) carries a scheme the Bot API rejects", entity.Type)
+			}
+		})
+
+		It("sends no entities field at all", func() {
+			var payload map[string]any
+			Expect(json.Unmarshal(receivedBody, &payload)).To(Succeed())
+			Expect(payload).NotTo(HaveKey("entities"))
+		})
+	})
 })
