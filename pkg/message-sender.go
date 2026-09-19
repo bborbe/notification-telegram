@@ -36,13 +36,16 @@ func (m MessageSenderFunc) Send(
 
 // telegramPayload is the JSON body sent to the Bot API sendMessage endpoint.
 //
-// Entities carries the text_link spans that make an obsidian:// deeplink
-// tappable. It is omitempty so a message with no such URL serializes exactly as
-// it did before entities existed.
+// It carries only chat_id and text, and deliberately has no entities field. A
+// Telegram text_link entity accepts only an http, https or tg:// URL; any other
+// scheme is answered with 400 "Unsupported URL protocol", which fails the whole
+// message rather than degrading it. An obsidian:// deeplink is therefore
+// delivered as plain text, and attaching an entity for one is not a cosmetic
+// regression — it is a delivery outage. Do not add an entities field back
+// without a URL scheme the Bot API accepts.
 type telegramPayload struct {
-	ChatID   string           `json:"chat_id"`
-	Text     string           `json:"text"`
-	Entities []textLinkEntity `json:"entities,omitempty"`
+	ChatID string `json:"chat_id"`
+	Text   string `json:"text"`
 }
 
 // telegramSendMessageResponse is the subset of the Bot API response this
@@ -84,9 +87,8 @@ func NewMessageSenderWithBaseURL(
 
 			text := message.String()
 			body, err := json.Marshal(telegramPayload{
-				ChatID:   chatID.String(),
-				Text:     text,
-				Entities: buildTextLinkEntities(text),
+				ChatID: chatID.String(),
+				Text:   text,
 			})
 			if err != nil {
 				return errors.Wrapf(ctx, err, "marshal telegram payload failed")
