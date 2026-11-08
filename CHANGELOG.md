@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- feat: build the image on a cluster — `make build BUILD_TARGET=<sun|nukedev|nukeprod>` renders `hack/build-job.yaml` and runs it as a Job, pushing `docker.io/bborbe/notification-telegram`; the local arm is unchanged
+
 ## v0.3.8
 
 - chore: update github.com/bborbe/cqrs to v0.6.15, github.com/bborbe/errors to v1.6.6, github.com/bborbe/http to v1.26.32, github.com/bborbe/kafka to v1.29.11, github.com/bborbe/kv to v1.21.28, github.com/bborbe/notification to v0.7.11, github.com/bborbe/run to v1.11.10, github.com/bborbe/sentry to v1.10.7, github.com/bborbe/service to v1.11.2, github.com/bborbe/time to v1.27.25, github.com/onsi/ginkgo/v2 to v2.34.0
