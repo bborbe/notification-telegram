@@ -95,7 +95,7 @@ spec:
               mountPath: /src
             - name: meta
               mountPath: /meta
-        # This repo builds with `-mod=vendor` while /vendor/ is gitignored, so the
+        # This repo builds with `-mod=vendor` while /vendor/ is untracked, so the
         # clone carries no vendor directory. The local arm regenerates it through
         # `check-go-mod` before `docker build`; the cluster arm must do the same
         # here, or `go build -mod=vendor` fails on an empty vendor/modules.txt.
@@ -159,8 +159,9 @@ spec:
           # Unconfined here is deliberate and is NOT an oversight left over from
           # the init containers above: rootless buildkitd with
           # --oci-worker-no-process-sandbox needs both profiles relaxed to run
-          # nested containers. Tightening them breaks every build; the
-          # unprivileged uid and the dropped capabilities are the boundary.
+          # nested containers. Tightening them breaks every build. This container
+          # drops no capabilities for the same reason; the unprivileged uid is the
+          # boundary, not a capability set.
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
