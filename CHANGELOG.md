@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- chore(dark-factory): worktree workflow with PR delivery
+
 ## v0.4.0
 
 - feat: build the image on a cluster — `make build BUILD_TARGET=<sun|nukedev|nukeprod>` renders `hack/build-job.yaml` and runs it as a Job, pushing `docker.io/bborbe/notification-telegram`; the local arm is unchanged
