@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- chore: update github.com/bborbe/http to v1.26.33, github.com/bborbe/kafka to v1.29.12, github.com/bborbe/time to v1.27.26
+
 ## v0.4.1
 
 - chore(dark-factory): worktree workflow with PR delivery
